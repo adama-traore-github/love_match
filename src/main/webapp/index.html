@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveMatch - Rencontrez des personnes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="onboarding-container" id="onboarding">
+        <button id="skipOnboarding" class="skip-btn">
+            <span>Passer</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        
+        <div class="onboarding-slides">
+            
+            <div class="onboarding-slide active" data-slide="1">
+                <div class="illustration-group">
+                    <img src="https://images.pexels.com/photos/1707921/pexels-photo-1707921.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 1" class="small-illustration illu-left">
+                    <img src="https://images.pexels.com/photos/1036329/pexels-photo-1036329.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 2" class="small-illustration illu-center">
+                    <img src="https://images.pexels.com/photos/1126728/pexels-photo-1126728.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 3" class="small-illustration illu-right">
+                </div>
+                
+                <div class="slide-bg"></div>
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h2>Bienvenue sur <span class="gradient-text">LoveMatch</span></h2>
+                        <p>Trouvez la personne qui vous correspond vraiment et vivez une belle histoire d'amour</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="onboarding-slide" data-slide="2">
+                <div class="illustration-group">
+                    <img src="https://images.pexels.com/photos/1126728/pexels-photo-1126728.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 4" class="small-illustration illu-left">
+                    <img src="https://images.pexels.com/photos/4050290/pexels-photo-4050290.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 5" class="small-illustration illu-center">
+                    <img src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 6" class="small-illustration illu-right">
+                </div>
+                
+                <div class="slide-bg"></div>
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h2>Découvrez des <span class="gradient-text">profils</span></h2>
+                        <p>Swipez, likez et faites des rencontres authentiques avec des personnes partageant vos passions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="onboarding-slide" data-slide="3">
+                <div class="illustration-group">
+                    <img src="https://images.pexels.com/photos/5699479/pexels-photo-5699479.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 7" class="small-illustration illu-left">
+                    <img src="https://images.pexels.com/photos/1769368/pexels-photo-1769368.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 8" class="small-illustration illu-center">
+                    <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 9" class="small-illustration illu-right">
+                </div>
+                
+                <div class="slide-bg"></div>
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h2>Discutez en <span class="gradient-text">temps réel</span></h2>
+                        <p>Échangez des messages instantanés avec vos matchs et créez des liens authentiques</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="onboarding-slide" data-slide="4">
+                <div class="illustration-group">
+                    <img src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 10" class="small-illustration illu-left">
+                    <img src="https://images.pexels.com/photos/1036329/pexels-photo-1036329.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 11" class="small-illustration illu-center">
+                    <img src="https://images.pexels.com/photos/1707921/pexels-photo-1707921.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                         alt="Illustration 12" class="small-illustration illu-right">
+                </div>
+                
+                <div class="slide-bg"></div>
+                <div class="slide-content">
+                    <div class="slide-text">
+                        <h2>Votre histoire <span class="gradient-text">commence ici</span></h2>
+                        <p>Rejoignez des milliers de célibataires qui ont déjà trouvé l'amour grâce à LoveMatch</p>
+                        <button id="startApp" class="btn btn-primary">
+                            <span>Commencer l'aventure</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="onboarding-nav">
+            <button class="nav-arrow prev-arrow" id="prevSlide" aria-label="Précédent">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="onboarding-indicators">
+                <span class="indicator active" data-slide="1"></span>
+                <span class="indicator" data-slide="2"></span>
+                <span class="indicator" data-slide="3"></span>
+                <span class="indicator" data-slide="4"></span>
+            </div>
+            
+            <button class="nav-arrow next-arrow" id="nextSlide" aria-label="Suivant">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <header class="app-header">
+            <h1>LoveMatch</h1>
+            <div class="header-actions">
+                <button id="settingsBtn" class="icon-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content" id="mainContent">
+            <div class="welcome-message">
+                <h2>Bienvenue sur LoveMatch</h2>
+                <p>Commencez à rencontrer des personnes dès maintenant !</p>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="#" class="nav-item" data-page="discover">
+                <i class="fas fa-search"></i>
+                <span>Découverte</span>
+            </a>
+            <a href="#" class="nav-item" data-page="messages">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="#" class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
