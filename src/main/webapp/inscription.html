@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - LoveMatch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff4b6e 0%, #ff7b54 100%);
+            --primary-color: #ff4b6e;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-input: #f8f9fa;
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Fond animé identique au Login pour la cohérence */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navigation Flottante */
+        .top-nav {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link-glass {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-link-glass:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        /* Carte d'inscription */
+        .register-card {
+            background: white;
+            width: 100%;
+            max-width: 750px;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Section Photo Avatar */
+        .avatar-upload {
+            position: relative;
+            max-width: 140px;
+            margin: 0 auto 2rem;
+        }
+
+        .avatar-preview {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background-color: #f0f0f0;
+        }
+
+        .avatar-edit {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            z-index: 1;
+        }
+
+        .avatar-edit label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .avatar-edit label:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar-edit i {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        /* Grille du formulaire */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            transition: 0.3s;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            border: 2px solid transparent;
+            background-color: var(--bg-input);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-control:focus {
+            background-color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(255, 75, 110, 0.1);
+        }
+
+        .form-control:focus + i {
+            color: var(--primary-color);
+        }
+
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        /* Section Tags (Centres d'intérêt) */
+        .interests-section {
+            background: #fafafa;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 1rem;
+            border: 1px dashed #ddd;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Checkbox cachée */
+        .tag-checkbox {
+            display: none;
+        }
+
+        /* Style du Tag (Label) */
+        .tag-label {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        .tag-label:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* État sélectionné */
+        .tag-checkbox:checked + .tag-label {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(255, 75, 110, 0.3);
+        }
+
+        /* Tag spécial (adulte) */
+        .tag-spicy {
+            border-color: #ffd1d1;
+            color: #ff4b6e;
+        }
+
+        /* Bouton Submit */
+        .btn-register {
+            width: 100%;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 75, 110, 0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 75, 110, 0.4);
+        }
+
+        .login-redirect {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .login-redirect a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .register-card {
+                padding: 1.5rem;
+            }
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="nav-logo">
+            <i class="fas fa-heart" style="color: white;"></i> LoveMatch
+        </a>
+        <a href="connexion.html" class="nav-link-glass">
+            <i class="fas fa-sign-in-alt"></i> Se connecter
+        </a>
+    </nav>
+
+    <main class="main-content">
+        <div class="register-card">
+            <h2>Créer un profil</h2>
+            <p class="subtitle">Rejoignez l'aventure et faites des rencontres inoubliables</p>
+            
+            <form id="registerForm" enctype="multipart/form-data">
+                
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <input type='file' id="profilePhoto" name="profilePhoto" accept=".png, .jpg, .jpeg" hidden />
+                        <label for="profilePhoto"><i class="fas fa-camera"></i></label>
+                    </div>
+                    <img id="profilePreview" src="https://via.placeholder.com/150?text=Photo" class="avatar-preview">
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="firstName" class="form-control" placeholder="Votre prénom" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="lastName" class="form-control" placeholder="Votre nom" required>
+                            <i class="fas fa-user-tag"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Email</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" class="form-control" placeholder="exemple@email.com" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="phone" class="form-control" placeholder="06 12 34 56 78" pattern="[0-9]{10}" required>
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ville</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="city" class="form-control" placeholder="Votre ville" required>
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Année de naissance</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="birthYear" class="form-control" min="1950" max="2007" placeholder="Ex: 2000" required>
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Genre</label>
+                        <div class="input-wrapper">
+                            <select id="gender" class="form-control" required>
+                                <option value="" disabled selected>Sélectionner</option>
+                                <option value="male">Homme</option>
+                                <option value="female">Femme</option>
+                                <option value="other">Autre</option>
+                            </select>
+                            <i class="fas fa-venus-mars"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Mot de passe</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" class="form-control" placeholder="8 caractères minimum" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interests-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <label style="margin:0;">Vos Passions & Envies</label>
+                        <span id="selectedInterestsCount" style="font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">0 sélectionné(s)</span>
+                    </div>
+
+                    <div class="tags-container">
+                        <input type="checkbox" id="tag_sport" name="interests" value="sport" class="tag-checkbox">
+                        <label for="tag_sport" class="tag-label"><i class="fas fa-running"></i> Sport</label>
+
+                        <input type="checkbox" id="tag_musique" name="interests" value="musique" class="tag-checkbox">
+                        <label for="tag_musique" class="tag-label"><i class="fas fa-music"></i> Musique</label>
+
+                        <input type="checkbox" id="tag_voyage" name="interests" value="voyage" class="tag-checkbox">
+                        <label for="tag_voyage" class="tag-label"><i class="fas fa-plane"></i> Voyage</label>
+
+                        <input type="checkbox" id="tag_cuisine" name="interests" value="cuisine" class="tag-checkbox">
+                        <label for="tag_cuisine" class="tag-label"><i class="fas fa-utensils"></i> Cuisine</label>
+
+                        <input type="checkbox" id="tag_cinema" name="interests" value="cinema" class="tag-checkbox">
+                        <label for="tag_cinema" class="tag-label"><i class="fas fa-film"></i> Cinéma</label>
+
+                        <input type="checkbox" id="tag_art" name="interests" value="art" class="tag-checkbox">
+                        <label for="tag_art" class="tag-label"><i class="fas fa-palette"></i> Art</label>
+
+                        <input type="checkbox" id="tag_tech" name="interests" value="technologie" class="tag-checkbox">
+                        <label for="tag_tech" class="tag-label"><i class="fas fa-laptop-code"></i> Tech</label>
+
+                        <input type="checkbox" id="tag_mode" name="interests" value="mode" class="tag-checkbox">
+                        <label for="tag_mode" class="tag-label"><i class="fas fa-tshirt"></i> Mode</label>
+
+                        <input type="checkbox" id="tag_nature" name="interests" value="nature" class="tag-checkbox">
+                        <label for="tag_nature" class="tag-label"><i class="fas fa-leaf"></i> Nature</label>
+
+                        <input type="checkbox" id="tag_jeux" name="interests" value="jeux" class="tag-checkbox">
+                        <label for="tag_jeux" class="tag-label"><i class="fas fa-gamepad"></i> Jeux</label>
+
+                        <input type="checkbox" id="tag_animaux" name="interests" value="animaux" class="tag-checkbox">
+                        <label for="tag_animaux" class="tag-label"><i class="fas fa-dog"></i> Animaux</label>
+
+                        <input type="checkbox" id="tag_photo" name="interests" value="photographie" class="tag-checkbox">
+                        <label for="tag_photo" class="tag-label"><i class="fas fa-camera-retro"></i> Photo</label>
+
+                        <input type="checkbox" id="tag_danse" name="interests" value="danse" class="tag-checkbox">
+                        <label for="tag_danse" class="tag-label"><i class="fas fa-music"></i> Danse</label>
+
+                        <input type="checkbox" id="tag_sexefriend" name="interests" value="sexefriend" class="tag-checkbox">
+                        <label for="tag_sexefriend" class="tag-label tag-spicy"><i class="fas fa-fire"></i> SexeFriend</label>
+
+                        <input type="checkbox" id="tag_ons" name="interests" value="coup-dun-soir" class="tag-checkbox">
+                        <label for="tag_ons" class="tag-label tag-spicy"><i class="fas fa-glass-cheers"></i> Coup d'un soir</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-register">Commencer l'aventure</button>
+
+                <div class="login-redirect">
+                    Déjà membre ? <a href="connexion.html">Connexion</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // 1. Gestion de l'aperçu photo (Style Avatar)
+        const photoInput = document.getElementById('profilePhoto');
+        const photoPreview = document.getElementById('profilePreview');
+
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    photoPreview.src = event.target.result;
+                    photoPreview.style.border = "4px solid #4CAF50"; // Petit feedback visuel vert
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Compteur de Tags (Simplifié)
+        const checkboxes = document.querySelectorAll('.tag-checkbox');
+        const countSpan = document.getElementById('selectedInterestsCount');
+
+        function updateCount() {
+            const count = document.querySelectorAll('.tag-checkbox:checked').length;
+            countSpan.textContent = `${count} sélectionné(s)`;
+            
+            if(count > 0) {
+                countSpan.style.color = "#4CAF50";
+            } else {
+                countSpan.style.color = "#ff4b6e";
+            }
+        }
+
+        checkboxes.forEach(box => {
+            box.addEventListener('change', updateCount);
+        });
+
+        // 3. Gestion de la soumission (Ton code JS existant, adapté)
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Vérification simple côté client
+            const phoneInput = document.getElementById('phone');
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phoneInput.value)) {
+                alert('Veuillez entrer un numéro de téléphone valide (10 chiffres)');
+                return;
+            }
+
+            const selectedInterests = document.querySelectorAll('input[name="interests"]:checked');
+            if (selectedInterests.length === 0) {
+                alert('Veuillez sélectionner au moins une passion ou envie !');
+                return;
+            }
+
+            // Simulation d'envoi (À remplacer par ton fetch API)
+            // Pour la démo design :
+            const btn = document.querySelector('.btn-register');
+            btn.textContent = "Création du compte...";
+            btn.style.opacity = "0.7";
+            
+            // Ici tu mettras ton code fetch existant...
+            // Je le laisse ici pour mémoire :
+            /* const formData = new FormData();
+            // ... append data ...
+            const response = await fetch('/api/register', ...);
+            */
+
+            setTimeout(() => {
+                alert("Inscription simulée réussie !");
+                window.location.href = 'connexion.html';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

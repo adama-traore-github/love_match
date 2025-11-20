@@ -1,158 +1,556 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoveMatch - Rencontrez des personnes</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoveMatch - Trouvez votre âme sœur</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* --- Définitions de couleurs pour la cohérence --- */
+:root {
+    --primary-color: #ff4b6e; /* Rose */
+    --secondary-color: #ff7b54; /* Orange */
+    --text-dark: #2c3e50;
+    --text-light: #666;
+    --bg-light: #f9f9f9;
+    --card-bg: white;
+}
+
+/* --- Styles Généraux et Utilitaires --- */
+body {
+    background-color: var(--bg-light);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- Navigation & Conteneur Principal --- */
+.app-container {
+    background-color: var(--bg-light);
+    min-height: 100vh;
+}
+
+.top-nav {
+    background: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Main Content (Le Landing Page) --- */
+.main-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 60px; /* Espace entre les sections */
+}
+
+/* --- Boutons CTA --- */
+.btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1.2rem 2.5rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 30px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(255, 75, 110, 0.4);
+    transition: transform 0.2s;
+    font-size: 1.1rem;
+}
+
+.btn-cta:hover {
+    transform: translateY(-3px);
+}
+
+/* --- 1. Hero Section --- */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 5%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hero-text-content {
+    max-width: 50%;
+}
+
+.hero-text-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-text-content p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+}
+
+.hero-image-mockup {
+    width: 40%;
+    max-width: 450px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.hero-image-mockup img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    transform: rotate(3deg);
+}
+
+/* --- 2. Features Section --- */
+.features-section {
+    text-align: center;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    background: var(--card-bg);
+    padding: 30px 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border-top: 5px solid var(--primary-color);
+    transition: all 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 75, 110, 0.15);
+}
+
+.feature-item i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.feature-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* --- 3. Témoignages --- */
+.testimonials-section {
+    padding: 40px 0;
+    text-align: center;
+    background-color: var(--bg-light);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.testimonial-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transform: rotate(0.5deg);
+}
+
+.rating {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.quote {
+    font-style: italic;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.author {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* --- 4. How It Works --- */
+.how-it-works-section {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.steps-grid {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.step-item {
+    flex: 1;
+    max-width: 300px;
+    position: relative;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-gradient);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.step-item i {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+/* --- 5. FAQ --- */
+.faq-section {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--card-bg);
+    border-radius: 0;
+    padding: 40px 5%;
+}
+
+.faq-item {
+    text-align: left;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-question {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.faq-answer {
+    color: var(--text-light);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 50px 0 30px;
+    }
+    .hero-text-content, .hero-image-mockup {
+        max-width: 100%;
+        width: 100%;
+    }
+    .hero-text-content {
+        margin-top: 30px;
+    }
+    .hero-text-content h1 {
+        font-size: 2.5rem;
+    }
+    .steps-grid {
+        flex-direction: column;
+    }
+    .step-item {
+        max-width: 100%;
+    }
+}
+</style>
 </head>
 <body>
-    <div class="onboarding-container" id="onboarding">
-        <button id="skipOnboarding" class="skip-btn">
-            <span>Passer</span>
-            <i class="fas fa-arrow-right"></i>
-        </button>
-        
-        <div class="onboarding-slides">
-            
-            <div class="onboarding-slide active" data-slide="1">
-                <div class="illustration-group">
-                    <img src="https://images.pexels.com/photos/1707921/pexels-photo-1707921.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 1" class="small-illustration illu-left">
-                    <img src="https://images.pexels.com/photos/1036329/pexels-photo-1036329.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 2" class="small-illustration illu-center">
-                    <img src="https://images.pexels.com/photos/1126728/pexels-photo-1126728.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 3" class="small-illustration illu-right">
-                </div>
-                
-                <div class="slide-bg"></div>
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Bienvenue sur <span class="gradient-text">LoveMatch</span></h2>
-                        <p>Trouvez la personne qui vous correspond vraiment et vivez une belle histoire d'amour</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="onboarding-slide" data-slide="2">
-                <div class="illustration-group">
-                    <img src="https://images.pexels.com/photos/1126728/pexels-photo-1126728.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 4" class="small-illustration illu-left">
-                    <img src="https://images.pexels.com/photos/4050290/pexels-photo-4050290.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 5" class="small-illustration illu-center">
-                    <img src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 6" class="small-illustration illu-right">
-                </div>
-                
-                <div class="slide-bg"></div>
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Découvrez des <span class="gradient-text">profils</span></h2>
-                        <p>Swipez, likez et faites des rencontres authentiques avec des personnes partageant vos passions</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="onboarding-slide" data-slide="3">
-                <div class="illustration-group">
-                    <img src="https://images.pexels.com/photos/5699479/pexels-photo-5699479.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 7" class="small-illustration illu-left">
-                    <img src="https://images.pexels.com/photos/1769368/pexels-photo-1769368.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 8" class="small-illustration illu-center">
-                    <img src="https://images.pexels.com/photos/3762804/pexels-photo-3762804.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 9" class="small-illustration illu-right">
-                </div>
-                
-                <div class="slide-bg"></div>
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Discutez en <span class="gradient-text">temps réel</span></h2>
-                        <p>Échangez des messages instantanés avec vos matchs et créez des liens authentiques</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="onboarding-slide" data-slide="4">
-                <div class="illustration-group">
-                    <img src="https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 10" class="small-illustration illu-left">
-                    <img src="https://images.pexels.com/photos/1036329/pexels-photo-1036329.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 11" class="small-illustration illu-center">
-                    <img src="https://images.pexels.com/photos/1707921/pexels-photo-1707921.jpeg?auto=compress&cs=tinysrgb&w=300" 
-                         alt="Illustration 12" class="small-illustration illu-right">
-                </div>
-                
-                <div class="slide-bg"></div>
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Votre histoire <span class="gradient-text">commence ici</span></h2>
-                        <p>Rejoignez des milliers de célibataires qui ont déjà trouvé l'amour grâce à LoveMatch</p>
-                        <button id="startApp" class="btn btn-primary">
-                            <span>Commencer l'aventure</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="onboarding-nav">
-            <button class="nav-arrow prev-arrow" id="prevSlide" aria-label="Précédent">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            
-            <div class="onboarding-indicators">
-                <span class="indicator active" data-slide="1"></span>
-                <span class="indicator" data-slide="2"></span>
-                <span class="indicator" data-slide="3"></span>
-                <span class="indicator" data-slide="4"></span>
-            </div>
-            
-            <button class="nav-arrow next-arrow" id="nextSlide" aria-label="Suivant">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
+<div class="onboarding-container" id="onboarding">
+<button id="skipOnboarding" class="skip-btn">
+<span>Passer</span>
+<i class="fas fa-arrow-right"></i>
+</button>
+
+<div class="onboarding-slides">
+<!-- ONBOARDING SLIDES (Contenu existant) -->
+
+<!-- Slide 1 -->
+<div class="onboarding-slide active" data-slide="1">
+<div class="illustration-group">
+    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+alt="Couple marchant main dans la main" class="small-illustration illu-left">
+
+
+<img src="https://images.pexels.com/photos/15419048/pexels-photo-15419048.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Silhouette de couple aimant" class="small-illustration illu-center">
+
+     <img src="https://images.pexels.com/photos/34752459/pexels-photo-34752459.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Étreinte romantique dans un studio (ID non vérifié)" class="small-illustration illu-right">
+
+</div>
+<div class="slide-bg"></div>
+<div class="slide-content">
+<div class="slide-text">
+<i class="fas fa-heart icon-theme"></i>
+<h2>Bienvenue sur <span class="gradient-text">LoveMatch</span></h2>
+<p>Trouvez la personne qui vous correspond vraiment et vivez une belle histoire d'amour</p>
+</div>
+</div>
+</div>
+
+<!-- Slide 2 -->
+<div class="onboarding-slide" data-slide="2">
+<div class="illustration-group">
+<img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+alt="Jeune femme souriante avec téléphone" class="small-illustration illu-left">
+<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+alt="Homme souriant portrait" class="small-illustration illu-center">
+<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+alt="Jeune femme au sourire irrésistible et rayonnant" class="small-illustration illu-right">
+</div>
+<div class="slide-bg"></div>
+<div class="slide-content">
+<div class="slide-text">
+<i class="fas fa-users icon-theme"></i>
+<h2>Découvrez des <span class="gradient-text">profils</span></h2>
+<p>Swipez, likez et faites des rencontres authentiques avec des personnes partageant vos passions</p>
+</div>
+</div>
+</div>
+
+<!-- Slide 3 -->
+<div class="onboarding-slide" data-slide="3">
+<div class="illustration-group">
+<img src="https://images.pexels.com/photos/7120132/pexels-photo-7120132.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Main tenant un smartphone" class="small-illustration illu-left">
+<img src="https://images.pexels.com/photos/7676766/pexels-photo-7676766.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Femme naviguant sur un smartphone" class="small-illustration illu-center">
+     <img src="https://images.pexels.com/photos/6146929/pexels-photo-6146929.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Homme assis sur un banc" class="small-illustration illu-right">
+
+</div>
+<div class="slide-bg"></div>
+<div class="slide-content">
+<div class="slide-text">
+<i class="fas fa-comments icon-theme"></i>
+<h2>Discutez en <span class="gradient-text">temps réel</span></h2>
+<p>Échangez des messages instantanés avec vos matchs et créez des liens authentiques</p>
+</div>
+</div>
+</div>
+
+<!-- Slide 4 -->
+<div class="onboarding-slide" data-slide="4">
+<div class="illustration-group">
+<img src="https://images.pexels.com/photos/6429563/pexels-photo-6429563.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Couple au lit, vue de haut, se tenant la main" class="small-illustration illu-left">
+<img src="https://images.pexels.com/photos/29891272/pexels-photo-29891272.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Image LoveMatch 29891272" class="small-illustration illu-center">
+<img src="https://images.pexels.com/photos/1004014/pexels-photo-1004014.jpeg?auto=compress&cs=tinysrgb&w=300" 
+     alt="Photo monochrome de couple main dans la main" class="small-illustration illu-right">
+</div>
+<div class="slide-bg"></div>
+<div class="slide-content">
+<div class="slide-text">
+<i class="fas fa-star icon-theme"></i>
+<h2>Votre histoire <span class="gradient-text">commence ici</span></h2>
+<p>Rejoignez des milliers de célibataires qui ont déjà trouvé l'amour grâce à LoveMatch</p>
+<button id="startApp" class="btn-start">
+<span>Commencer ici</span>
+</button>
+</div>
+</div>
+</div>
+<!-- FIN ONBOARDING SLIDES -->
+</div>
+
+<div class="onboarding-nav">
+<button class="nav-arrow prev-arrow" id="prevSlide" aria-label="Précédent">
+<i class="fas fa-chevron-left"></i>
+</button>
+<div class="onboarding-indicators">
+<span class="indicator active" data-slide="1"></span>
+<span class="indicator" data-slide="2"></span>
+<span class="indicator" data-slide="3"></span>
+<span class="indicator" data-slide="4"></span>
+</div>
+<button class="nav-arrow next-arrow" id="nextSlide" aria-label="Suivant">
+<i class="fas fa-chevron-right"></i>
+</button>
+</div>
+</div>
+
+<!-- Partie principale de l'app -->
+<div class="app-container" id="appContainer" style="display: none;">
+<nav class="top-nav">
+    <a href="#" class="nav-logo">LoveMatch</a>
+    <div class="nav-links">
+        <a href="index.html" class="nav-link active" data-page="home">
+            <i class="fas fa-home"></i> Accueil
+        </a>
+        <a href="decouverte.html" class="nav-link" data-page="discover">
+            <i class="fas fa-search"></i> Découverte
+        </a>
+        <a href="messages.html" class="nav-link" data-page="messages">
+            <i class="fas fa-comments"></i> Messages <span class="badge">3</span>
+        </a>
+        <a href="profil.html" class="nav-link" data-page="profile">
+            <i class="fas fa-user"></i> Profil
+        </a>
+        <a href="connexion.html" class="nav-link" id="loginBtn">
+            <i class="fas fa-sign-in-alt"></i> Connexion
+        </a>
+        <a href="inscription.html" class="nav-link btn-register" id="registerBtn">
+            <i class="fas fa-user-plus"></i> Inscription
+        </a>
     </div>
+</nav>
 
-    <div class="app-container" id="appContainer" style="display: none;">
-        <header class="app-header">
-            <h1>LoveMatch</h1>
-            <div class="header-actions">
-                <button id="settingsBtn" class="icon-btn">
-                    <i class="fas fa-cog"></i>
-                </button>
-            </div>
-        </header>
-
-        <main class="main-content" id="mainContent">
-            <div class="welcome-message">
-                <h2>Bienvenue sur LoveMatch</h2>
-                <p>Commencez à rencontrer des personnes dès maintenant !</p>
-            </div>
-        </main>
-
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-page="home">
-                <i class="fas fa-home"></i>
-                <span>Accueil</span>
+<!-- ************************************ -->
+<!-- CONTENU PRINCIPAL (LANDING PAGE) -->
+<!-- ************************************ -->
+<main class="main-content" id="mainContent">
+    
+    <!-- ✅ 1. Hero Section -->
+    <section class="hero-section">
+        <div class="hero-text-content">
+            <h1>Trouvez la personne qui <span class="gradient-text">illumine votre vie</span>.</h1>
+            <p>Rencontrez des personnes authentiques et vérifiées proches de chez vous. Votre histoire d'amour commence ici.</p>
+            <a href="inscription.html" class="btn-cta">
+                <i class="fas fa-user-plus"></i> Créer votre compte gratuit
             </a>
-            <a href="#" class="nav-item" data-page="discover">
-                <i class="fas fa-search"></i>
-                <span>Découverte</span>
-            </a>
-            <a href="#" class="nav-item" data-page="messages">
+        </div>
+        <div class="hero-image-mockup">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80" alt="Mockup de profil" loading="lazy">
+        </div>
+    </section>
+
+    <!-- ✅ 2. Avantages / Features rapides -->
+    <section class="features-section">
+        <h2 style="color: var(--primary-color);">Pourquoi choisir LoveMatch ?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <i class="fas fa-lock"></i>
+                <h4>Sécurité & Confidentialité</h4>
+                <p>Vos données sont protégées et vos photos vérifiées par notre équipe.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-bullseye"></i>
+                <h4>Matching intelligent</h4>
+                <p>Notre algorithme vous propose des profils basés sur vos centres d'intérêt réels.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <h4>Rencontre locale</h4>
+                <p>Connectez-vous avec des célibataires situés à quelques kilomètres de vous.</p>
+            </div>
+            <div class="feature-item">
                 <i class="fas fa-comments"></i>
-                <span>Messages</span>
-                <span class="badge">3</span>
-            </a>
-            <a href="#" class="nav-item" data-page="profile">
-                <i class="fas fa-user"></i>
-                <span>Profil</span>
-            </a>
-        </nav>
-    </div>
+                <h4>Chat en temps réel</h4>
+                <p>Discutez instantanément et créez des liens durables avec vos matchs.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ✅ 3. Témoignages (social proof) -->
+    <section class="testimonials-section">
+        <h2>Ils ont trouvé l'amour grâce à <span class="gradient-text">LoveMatch</span></h2>
+        <div class="rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> 4.8 / 5
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="quote">"Après des mois de galère, j'ai rencontré Moussa. Le matching était si précis. Merci LoveMatch !"</p>
+                <p class="author">- Amina, 27 ans</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Interface simple, pas de faux profils. C'est de loin la meilleure application de rencontre que j'ai utilisée."</p>
+                <p class="author">- Ibrahim, 32 ans</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Le chat en temps réel est génial. J'ai eu mon premier rendez-vous après seulement une semaine d'utilisation."</p>
+                <p class="author">- Sarah, 24 ans</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ✅ 4. Aperçu de l’application / Comment ça marche -->
+    <section class="how-it-works-section">
+        <h2 style="margin-bottom: 40px;">Comment ça marche en 3 étapes ?</h2>
+        <div class="steps-grid">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <i class="fas fa-user-plus"></i>
+                <h4>Crée ton profil</h4>
+                <p>Ajoute tes plus belles photos et tes passions. C'est rapide et sécurisé.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <i class="fas fa-fire"></i>
+                <h4>Découvre des personnes</h4>
+                <p>Like ou Passe les profils qui te sont suggérés par notre algorithme.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <i class="fas fa-message"></i>
+                <h4>Discute et matche</h4>
+                <p>Si le feeling est là, vous pouvez commencer à échanger des messages !</p>
+            </div>
+        </div>
+    </section>
 
-    <script src="js/app.js"></script>
+    <!-- ✅ 5. FAQ courte -->
+    <section class="faq-section">
+        <h2 style="margin-bottom: 30px;">Questions Fréquentes</h2>
+        <div class="faq-item">
+            <p class="faq-question">Q: Est-ce que LoveMatch est vraiment gratuit ?</p>
+            <p class="faq-answer">R: L'inscription et la découverte de profils sont entièrement gratuites. Les fonctionnalités avancées sont optionnelles.</p>
+        </div>
+        <div class="faq-item">
+            <p class="faq-question">Q: Comment sont gérés mes données personnelles ?</p>
+            <p class="faq-answer">R: Nous respectons le RGPD. Vos données sont cryptées et nous ne partageons jamais vos informations sans votre consentement explicite.</p>
+        </div>
+        <div class="faq-item">
+            <p class="faq-question">Q: Comment fonctionne le matching ?</p>
+            <p class="faq-answer">R: Nous analysons la localisation, l'âge, et surtout les centres d'intérêt que vous avez sélectionnés pour maximiser vos chances de connexion.</p>
+        </div>
+    </section>
+
+</main>
+<!-- ************************************ -->
+<!-- FIN CONTENU PRINCIPAL -->
+<!-- ************************************ -->
+</div>
+
+<script src="js/onboarding.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
