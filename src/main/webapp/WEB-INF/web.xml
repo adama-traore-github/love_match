@@ -12,6 +12,11 @@
         <listener-class>org.apache.tomcat.websocket.server.WsContextListener</listener-class>
     </listener>
     
+    <!-- Initialisation de la base de données -->
+    <listener>
+        <listener-class>com.lovematch.config.DatabaseInitializer</listener-class>
+    </listener>
+    
     <!-- Configuration de la page de connexion -->
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -45,13 +50,6 @@
         <url-pattern>/messages/*</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>ProfileServlet</servlet-name>
-        <servlet-class>com.lovematch.controllers.ProfileServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProfileServlet</servlet-name>
-        <url-pattern>/profile/*</url-pattern>
-    </servlet-mapping>
+
     
 </web-app>

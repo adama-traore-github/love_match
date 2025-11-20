@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <div class="app-container">
         <nav class="top-nav">
@@ -33,7 +35,7 @@
             <div class="discovery-container">
                 <h2>Découvrez des personnes</h2>
                 <p>Trouvez des personnes qui partagent vos centres d'intérêt</p>
-                
+
                 <!-- Filtres de recherche -->
                 <div class="filters-container">
                     <div class="filter-group">
@@ -44,7 +46,7 @@
                             <input type="number" id="age-max" placeholder="99" min="18" max="100">
                         </div>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label>Genre :</label>
                         <div class="radio-group">
@@ -53,33 +55,46 @@
                             <label><input type="radio" name="gender" value="female"> Femme</label>
                         </div>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="interests">Centre d'intérêt :</label>
-                        <select id="interests">
-                            <option value="">Tous les centres d'intérêt</option>
-                            <option value="sport">Sport</option>
-                            <option value="musique">Musique</option>
-                            <option value="voyage">Voyage</option>
-                            <option value="cinema">Cinéma</option>
-                            <option value="lecture">Lecture</option>
-                            <option value="cuisine">Cuisine</option>
+                        <select id="interest-filter">
+                            <option value="">Tous les intérêts</option>
+                            <option value="Sport">Sport</option>
+                            <option value="Musique">Musique</option>
+                            <option value="Voyage">Voyage</option>
+                            <option value="Lecture">Lecture</option>
+                            <option value="Cuisine">Cuisine</option>
+                            <option value="Cinéma">Cinéma</option>
+                            <option value="Art">Art</option>
+                            <option value="Technologie">Technologie</option>
+                            <option value="Mode">Mode</option>
+                            <option value="Nature">Nature</option>
+                            <option value="sexefriend">sexefriend</option>
+                            <option value="Jeux">Jeux</option>
+                            <option value="Animaux">Animaux</option>
+                            <option value="Photographie">Photographie</option>
+                            <option value="Coup d'un soir">Coup d'un soir</option>
+                            <option value="Danse">Danse</option>
+                            <option value="Théâtre">Théâtre</option>
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="city">Ville :</label>
                         <input type="text" id="city" placeholder="Entrez une ville">
                     </div>
-                    
+
                     <button id="apply-filters" class="btn-primary">Appliquer les filtres</button>
                 </div>
-                
+
                 <!-- Grille des profils -->
-                <div class="profiles-grid" id="profiles-container">
-                    <!-- Les profils seront insérés ici dynamiquement -->
+                <div class="carousel-container" id="carousel-wrapper">
+                    <div class="profiles-grid" id="profiles-container">
+                        <!-- Les profils seront insérés ici dynamiquement -->
+                    </div>
                 </div>
-                
+
                 <!-- Modal pour afficher la bio -->
                 <div id="bioModal" class="modal">
                     <div class="modal-content">
@@ -91,6 +106,7 @@
             </div>
         </main>
     </div>
-    <script src="js/app.js"></script>
+    <script src="js/discovery/discovery.js"></script>
 </body>
+
 </html>

@@ -33,7 +33,10 @@ async function handleLogin(e) {
     submitBtn.textContent = 'Connexion en cours...';
     
     try {
-        const response = await fetch('http://localhost:8000/api/auth/login', {
+        // Afficher les logs de débogage
+        console.log('[Login] Tentative de connexion pour:', email);
+        
+        const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,19 +44,24 @@ async function handleLogin(e) {
             },
             body: JSON.stringify({
                 email: email,
-                password: password, // Envoi du mot de passe en clair
+                password: password, // À remplacer par un hachage côté client dans une version de production
                 rememberMe: rememberMe
             }),
-            credentials: 'include'
+            credentials: 'include' // Important pour les cookies de session
         });
         
         const data = await response.json();
+        console.log('[Login] Réponse du serveur:', data);
         
         if (response.ok) {
             // Connexion réussie
-            if (data.token) {
-                // Stocker le token dans le localStorage
+            if (data.token && data.user) {
+                // Stocker les informations utilisateur dans le localStorage
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('userId', data.user.id);
+                localStorage.setItem('userGender', data.user.gender || '');
+                localStorage.setItem('userName', data.user.username || '');
+                localStorage.setItem('userEmail', data.user.email || '');
                 
                 // Si l'utilisateur a coché "Se souvenir de moi"
                 if (rememberMe) {
@@ -62,8 +70,15 @@ async function handleLogin(e) {
                     localStorage.removeItem('rememberMe');
                 }
                 
+                console.log('[Login] Utilisateur connecté avec succès:', {
+                    id: data.user.id,
+                    email: data.user.email,
+                    gender: data.user.gender
+                });
+                
                 // Redirection vers la page d'accueil
-                window.location.href = '/decouverte.html';
+                const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '/decouverte.html';
+                window.location.href = redirectUrl;
             }
         } else {
             // Afficher l'erreur retournée par le serveur
@@ -95,7 +110,42 @@ async function handleLogin(e) {
     }
 }
 
+// Vérifier l'état d'authentification au chargement de la page
+async function checkAuth() {
+    try {
+        const response = await fetch('/api/auth/check', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.authenticated && data.user) {
+                // Mettre à jour le localStorage avec les données utilisateur
+                localStorage.setItem('userId', data.user.id);
+                localStorage.setItem('userGender', data.user.gender || '');
+                localStorage.setItem('userName', data.user.username || '');
+                localStorage.setItem('userEmail', data.user.email || '');
+                
+                // Rediriger si nécessaire
+                if (window.location.pathname.includes('login.html') || 
+                    window.location.pathname.includes('register.html')) {
+                    window.location.href = '/decouverte.html';
+                }
+            }
+        }
+    } catch (error) {
+        console.error('[Auth] Erreur lors de la vérification de l\'authentification:', error);
+    }
+}
+
+// Vérifier l'authentification au chargement de la page
+if (window.location.pathname !== '/login.html' && 
+    window.location.pathname !== '/register.html') {
+    checkAuth();
+}
+
 function showError(message) {
+    console.error('[Login] Erreur:', message);
     // Supprimer les messages d'erreur existants
     const existingError = document.querySelector('.error-message');
     if (existingError) {
