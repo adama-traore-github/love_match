@@ -114,13 +114,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let apiUrl;
 
-            if (currentUserId) {
-                // Utilisateur connecté : récupérer les matchs potentiels
-                apiUrl = `/api/profiles/matches/${currentUserId}?gender=${getSearchPreference()}`;
-            } else {
-                // Utilisateur non connecté : récupérer tous les profils
-                apiUrl = '/api/profiles';
-            }
+            // TOUJOURS utiliser l'API générale pour avoir tous les profils
+            // On filtrera ensuite côté client pour retirer le profil de l'utilisateur connecté
+            apiUrl = '/api/profiles';
 
             // Récupérer les profils depuis l'API
             console.log(`[Discovery] Appel API: ${apiUrl}`);
@@ -161,7 +157,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error(data.message || 'Erreur lors du chargement des profils');
             }
 
-            const profiles = Array.isArray(data) ? data : [];
+            let profiles = Array.isArray(data) ? data : [];
+
+            // Normaliser les IDs (l'API renvoie userId, le front attend parfois id)
+            profiles = profiles.map(p => {
+                if (!p.id && p.userId) {
+                    p.id = p.userId;
+                }
+                return p;
+            });
+
+            // Si connecté, filtrer pour ne pas afficher son propre profil
+            if (currentUserId) {
+                console.log(`[Discovery] Filtrage du profil utilisateur actuel: ${currentUserId}`);
+                profiles = profiles.filter(p => String(p.id) !== String(currentUserId));
+            }
+
             // Mélanger les profils pour un affichage aléatoire
             allProfiles = shuffleArray(profiles);
             console.log(`[Discovery] ${profiles.length} profils récupérés et mélangés`);
