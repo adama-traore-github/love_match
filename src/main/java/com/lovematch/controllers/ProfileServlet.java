@@ -2,6 +2,7 @@ package com.lovematch.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovematch.dao.ProfileDAO;
+import com.lovematch.dao.UserDAO;
 import com.lovematch.models.User;
 
 import javax.servlet.ServletException;
@@ -45,9 +46,16 @@ public class ProfileServlet extends HttpServlet {
                 
                 response.getWriter().write(objectMapper.writeValueAsString(profiles));
             } else {
-                // Vérifier si c'est une requête pour les correspondances potentielles
+                // Vérifier si c'est une requête pour les correspondances potentielles ou les intérêts
                 String[] pathParts = pathInfo.split("/");
-                if (pathParts.length >= 3 && "matches".equals(pathParts[2])) {
+                
+                if (pathParts.length >= 2 && "interests".equals(pathParts[1])) {
+                    // Récupérer la liste de tous les intérêts
+                    UserDAO userDAO = new UserDAO((DataSource) getServletContext().getAttribute("dataSource"));
+                    List<String> interests = userDAO.getAllInterests();
+                    response.getWriter().write(objectMapper.writeValueAsString(interests));
+                    
+                } else if (pathParts.length >= 3 && "matches".equals(pathParts[2])) {
                     // Récupérer les correspondances potentielles
                     Long userId = Long.parseLong(pathParts[1]);
                     String genderPreference = request.getParameter("gender");
@@ -124,6 +132,95 @@ public class ProfileServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             sendError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur lors du traitement de la demande");
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        System.out.println("[ProfileServlet] doPut called");
+        
+        // Vérifier l'authentification
+        HttpSession session = request.getSession(false);
+        User currentUser = null;
+        
+        if (session != null) {
+            currentUser = (User) session.getAttribute("user");
+            if (currentUser == null) {
+                Long userId = (Long) session.getAttribute("userId");
+                if (userId != null) {
+                    // Charger l'utilisateur depuis la BDD si on a l'ID en session
+                    UserDAO userDAO = new UserDAO((DataSource) getServletContext().getAttribute("dataSource"));
+                    currentUser = userDAO.findById(userId);
+                    if (currentUser != null) {
+                        session.setAttribute("user", currentUser);
+                    }
+                }
+            }
+        }
+
+        if (currentUser == null) {
+            System.out.println("[ProfileServlet] Unauthorized access attempt");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Non autorisé");
+            return;
+        }
+        String pathInfo = request.getPathInfo();
+        System.out.println("[ProfileServlet] User: " + currentUser.getUsername() + ", PathInfo: " + pathInfo);
+        
+        // Vérifier que l'utilisateur modifie bien son propre profil
+        if (pathInfo != null) {
+            String[] pathParts = pathInfo.split("/");
+            if (pathParts.length >= 2) {
+                try {
+                    Long targetUserId = Long.parseLong(pathParts[1]);
+                    if (!currentUser.getUserId().equals(targetUserId)) {
+                        System.out.println("[ProfileServlet] Forbidden: User " + currentUser.getUserId() + " tried to edit " + targetUserId);
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Vous ne pouvez modifier que votre propre profil");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    // Ignorer, on continue
+                }
+            }
+        }
+
+        try {
+            // Lire les données JSON
+            Map<String, Object> updateData = objectMapper.readValue(request.getReader(), Map.class);
+            System.out.println("[ProfileServlet] Update data received: " + updateData);
+            
+            // Mettre à jour les champs autorisés
+            if (updateData.containsKey("firstName")) currentUser.setFirstName((String) updateData.get("firstName"));
+            if (updateData.containsKey("lastName")) currentUser.setLastName((String) updateData.get("lastName"));
+            if (updateData.containsKey("city")) currentUser.setCity((String) updateData.get("city"));
+            if (updateData.containsKey("bio")) currentUser.setBio((String) updateData.get("bio"));
+            if (updateData.containsKey("phoneNumber")) currentUser.setPhoneNumber((String) updateData.get("phoneNumber"));
+            if (updateData.containsKey("searchPreference")) currentUser.setSearchPreference((String) updateData.get("searchPreference"));
+            if (updateData.containsKey("gender")) currentUser.setGender((String) updateData.get("gender"));
+            if (updateData.containsKey("email")) currentUser.setEmail((String) updateData.get("email"));
+
+            // Sauvegarder en base
+            UserDAO userDAO = new UserDAO((DataSource) getServletContext().getAttribute("dataSource"));
+            userDAO.update(currentUser);
+
+            // Mettre à jour les intérêts si présents
+            if (updateData.containsKey("interests")) {
+                List<String> interestsList = (List<String>) updateData.get("interests");
+                Set<String> interestsSet = new HashSet<>(interestsList);
+                userDAO.updateInterests(currentUser.getUserId(), interestsSet);
+                currentUser.setInterests(interestsSet);
+            }
+            
+            // Mettre à jour la session
+            session.setAttribute("user", currentUser);
+
+            // Répondre avec le profil mis à jour
+            response.setContentType("application/json");
+            response.getWriter().write(objectMapper.writeValueAsString(convertToMap(currentUser)));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur lors de la mise à jour du profil");
         }
     }
 

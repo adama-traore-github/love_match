@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(`[Discovery] Utilisateur ${isLoggedIn ? 'connecté' : 'non connecté'}`);
 
     // Mettre à jour l'interface en fonction de l'état de connexion
-    updateUIForAuthState(isLoggedIn);
+    // updateUIForAuthState(isLoggedIn); // Géré par app.js désormais
 
     // Charger les profils
     console.log('[Discovery] Début du chargement des profils...');
@@ -434,24 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Mettre à jour l'interface en fonction de l'état d'authentification
-    function updateUIForAuthState(isAuthenticated) {
-        const loginLink = document.getElementById('loginBtn');
-        if (loginLink) {
-            if (isAuthenticated) {
-                loginLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
-                loginLink.href = '#';
-                loginLink.onclick = (e) => {
-                    e.preventDefault();
-                    localStorage.removeItem('token');
-                    window.location.reload();
-                };
-            } else {
-                loginLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Connexion';
-                loginLink.href = 'connexion.html';
-                loginLink.onclick = null;
-            }
-        }
-    }
+    // Fonction supprimée car gérée par app.js
 
     // Fonction pour afficher la modale de match
     function showMatchModal(matchedUser) {

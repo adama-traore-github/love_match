@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - LoveMatch</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #ff4b6e 0%, #ff7b54 100%);
@@ -35,9 +37,17 @@
         }
 
         @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Navigation Flottante */
@@ -53,7 +63,7 @@
             font-weight: 700;
             color: white;
             text-decoration: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -62,18 +72,18 @@
         .nav-link-glass {
             color: white;
             text-decoration: none;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 0.6rem 1.2rem;
             border-radius: 30px;
             backdrop-filter: blur(5px);
             transition: all 0.3s;
             font-size: 0.9rem;
             font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-link-glass:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
 
@@ -96,8 +106,15 @@
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
@@ -127,7 +144,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid white;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             background-color: #f0f0f0;
         }
 
@@ -148,7 +165,7 @@
             border: 3px solid white;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s;
         }
 
@@ -216,7 +233,7 @@
             box-shadow: 0 0 0 4px rgba(255, 75, 110, 0.1);
         }
 
-        .form-control:focus + i {
+        .form-control:focus+i {
             color: var(--primary-color);
         }
 
@@ -270,7 +287,7 @@
         }
 
         /* État sélectionné */
-        .tag-checkbox:checked + .tag-label {
+        .tag-checkbox:checked+.tag-label {
             background: var(--primary-gradient);
             color: white;
             border-color: transparent;
@@ -322,15 +339,18 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
             .register-card {
                 padding: 1.5rem;
             }
+
             .full-width {
                 grid-column: auto;
             }
         }
     </style>
 </head>
+
 <body>
 
     <nav class="top-nav">
@@ -346,9 +366,9 @@
         <div class="register-card">
             <h2>Créer un profil</h2>
             <p class="subtitle">Rejoignez l'aventure et faites des rencontres inoubliables</p>
-            
+
             <form id="registerForm" enctype="multipart/form-data">
-                
+
                 <div class="avatar-upload">
                     <div class="avatar-edit">
                         <input type='file' id="profilePhoto" name="profilePhoto" accept=".png, .jpg, .jpeg" hidden />
@@ -376,7 +396,8 @@
                     <div class="form-group full-width">
                         <label>Email</label>
                         <div class="input-wrapper">
-                            <input type="email" id="email" class="form-control" placeholder="exemple@email.com" required>
+                            <input type="email" id="email" class="form-control" placeholder="exemple@email.com"
+                                required>
                             <i class="fas fa-envelope"></i>
                         </div>
                     </div>
@@ -384,7 +405,8 @@
                     <div class="form-group">
                         <label>Téléphone</label>
                         <div class="input-wrapper">
-                            <input type="tel" id="phone" class="form-control" placeholder="06 12 34 56 78" pattern="[0-9]{10}" required>
+                            <input type="tel" id="phone" class="form-control" placeholder="70 12 34 56"
+                                pattern="[0-9]{8}" required>
                             <i class="fas fa-phone"></i>
                         </div>
                     </div>
@@ -397,9 +419,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Année de naissance</label>
+                        <label>Date de naissance</label>
                         <div class="input-wrapper">
-                            <input type="number" id="birthYear" class="form-control" min="1950" max="2007" placeholder="Ex: 2000" required>
+                            <input type="date" id="birthDate" class="form-control" required>
                             <i class="fas fa-calendar"></i>
                         </div>
                     </div>
@@ -419,16 +441,20 @@
                     <div class="form-group full-width">
                         <label>Mot de passe</label>
                         <div class="input-wrapper">
-                            <input type="password" id="password" class="form-control" placeholder="8 caractères minimum" required>
+                            <input type="password" id="password" class="form-control" placeholder="8 caractères minimum"
+                                required>
                             <i class="fas fa-lock"></i>
                         </div>
                     </div>
                 </div>
 
                 <div class="interests-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                         <label style="margin:0;">Vos Passions & Envies</label>
-                        <span id="selectedInterestsCount" style="font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">0 sélectionné(s)</span>
+                        <span id="selectedInterestsCount"
+                            style="font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">0
+                            sélectionné(s)</span>
                     </div>
 
                     <div class="tags-container">
@@ -465,17 +491,21 @@
                         <input type="checkbox" id="tag_animaux" name="interests" value="animaux" class="tag-checkbox">
                         <label for="tag_animaux" class="tag-label"><i class="fas fa-dog"></i> Animaux</label>
 
-                        <input type="checkbox" id="tag_photo" name="interests" value="photographie" class="tag-checkbox">
+                        <input type="checkbox" id="tag_photo" name="interests" value="photographie"
+                            class="tag-checkbox">
                         <label for="tag_photo" class="tag-label"><i class="fas fa-camera-retro"></i> Photo</label>
 
                         <input type="checkbox" id="tag_danse" name="interests" value="danse" class="tag-checkbox">
                         <label for="tag_danse" class="tag-label"><i class="fas fa-music"></i> Danse</label>
 
-                        <input type="checkbox" id="tag_sexefriend" name="interests" value="sexefriend" class="tag-checkbox">
-                        <label for="tag_sexefriend" class="tag-label tag-spicy"><i class="fas fa-fire"></i> SexeFriend</label>
+                        <input type="checkbox" id="tag_sexefriend" name="interests" value="sexefriend"
+                            class="tag-checkbox">
+                        <label for="tag_sexefriend" class="tag-label tag-spicy"><i class="fas fa-fire"></i>
+                            SexeFriend</label>
 
                         <input type="checkbox" id="tag_ons" name="interests" value="coup-dun-soir" class="tag-checkbox">
-                        <label for="tag_ons" class="tag-label tag-spicy"><i class="fas fa-glass-cheers"></i> Coup d'un soir</label>
+                        <label for="tag_ons" class="tag-label tag-spicy"><i class="fas fa-glass-cheers"></i> Coup d'un
+                            soir</label>
                     </div>
                 </div>
 
@@ -493,11 +523,11 @@
         const photoInput = document.getElementById('profilePhoto');
         const photoPreview = document.getElementById('profilePreview');
 
-        photoInput.addEventListener('change', function(e) {
+        photoInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = function (event) {
                     photoPreview.src = event.target.result;
                     photoPreview.style.border = "4px solid #4CAF50"; // Petit feedback visuel vert
                 };
@@ -512,8 +542,8 @@
         function updateCount() {
             const count = document.querySelectorAll('.tag-checkbox:checked').length;
             countSpan.textContent = `${count} sélectionné(s)`;
-            
-            if(count > 0) {
+
+            if (count > 0) {
                 countSpan.style.color = "#4CAF50";
             } else {
                 countSpan.style.color = "#ff4b6e";
@@ -524,15 +554,15 @@
             box.addEventListener('change', updateCount);
         });
 
-        // 3. Gestion de la soumission (Ton code JS existant, adapté)
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        // 3. Gestion de la soumission
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
-            // Vérification simple côté client
+
+            // Validation côté client
             const phoneInput = document.getElementById('phone');
-            const phoneRegex = /^[0-9]{10}$/;
+            const phoneRegex = /^[0-9]{8}$/; // 8 chiffres
             if (!phoneRegex.test(phoneInput.value)) {
-                alert('Veuillez entrer un numéro de téléphone valide (10 chiffres)');
+                alert('Veuillez entrer un numéro de téléphone valide (8 chiffres)');
                 return;
             }
 
@@ -542,24 +572,53 @@
                 return;
             }
 
-            // Simulation d'envoi (À remplacer par ton fetch API)
-            // Pour la démo design :
             const btn = document.querySelector('.btn-register');
+            const originalBtnText = btn.textContent;
             btn.textContent = "Création du compte...";
+            btn.disabled = true;
             btn.style.opacity = "0.7";
-            
-            // Ici tu mettras ton code fetch existant...
-            // Je le laisse ici pour mémoire :
-            /* const formData = new FormData();
-            // ... append data ...
-            const response = await fetch('/api/register', ...);
-            */
 
-            setTimeout(() => {
-                alert("Inscription simulée réussie !");
-                window.location.href = 'connexion.html';
-            }, 1500);
+            try {
+                const formData = new FormData();
+                formData.append('email', document.getElementById('email').value);
+                formData.append('firstName', document.getElementById('firstName').value);
+                formData.append('lastName', document.getElementById('lastName').value);
+                formData.append('phone', document.getElementById('phone').value);
+                formData.append('city', document.getElementById('city').value);
+                formData.append('birthDate', document.getElementById('birthDate').value);
+                formData.append('gender', document.getElementById('gender').value);
+                formData.append('password', document.getElementById('password').value);
+
+                if (photoInput.files[0]) {
+                    formData.append('profilePhoto', photoInput.files[0]);
+                }
+
+                selectedInterests.forEach(checkbox => {
+                    formData.append('interests', checkbox.value);
+                });
+
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert("Inscription réussie ! Bienvenue sur LoveMatch.");
+                    window.location.href = 'connexion.html';
+                } else {
+                    throw new Error(data.error || "Erreur inconnue");
+                }
+            } catch (error) {
+                console.error("Erreur inscription:", error);
+                alert("Erreur lors de l'inscription : " + error.message);
+                btn.textContent = originalBtnText;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
         });
     </script>
 </body>
+
 </html>

@@ -54,7 +54,39 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
+    // Mettre à jour l'interface d'authentification (Navbar)
+    updateAuthUI();
 });
+
+// Fonction pour mettre à jour la navbar en fonction de l'état de connexion
+function updateAuthUI() {
+    const token = localStorage.getItem('token');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (token) {
+        // Utilisateur connecté
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (registerBtn) registerBtn.style.display = 'none';
+
+        if (logoutBtn) {
+            logoutBtn.style.display = 'inline-flex'; // Utiliser inline-flex pour garder l'alignement avec l'icône
+            logoutBtn.onclick = function (e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                window.location.href = 'index.html';
+            };
+        }
+    } else {
+        // Utilisateur déconnecté
+        if (loginBtn) loginBtn.style.display = 'inline-flex';
+        if (registerBtn) registerBtn.style.display = 'inline-flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
 
 // ==========================================================
 // 2. FONCTIONS DE L'ONBOARDING (Sécurisées)

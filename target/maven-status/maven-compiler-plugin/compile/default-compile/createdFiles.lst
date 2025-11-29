@@ -1,7 +1,9 @@
 com/lovematch/controllers/ProfileServlet.class
+com/lovematch/dao/UserDAO.class
+com/lovematch/controllers/ProfilePhotoServlet.class
 com/lovematch/controllers/AuthController.class
 com/lovematch/models/User.class
-com/lovematch/dao/UserDAO.class
 com/lovematch/models/Profile.class
 com/lovematch/config/DatabaseInitializer.class
 com/lovematch/dao/ProfileDAO.class
+com/lovematch/controllers/RegisterServlet.class

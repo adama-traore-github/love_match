@@ -76,7 +76,7 @@ public class AuthController extends HttpServlet {
             // Vérifier les identifiants
             User user = userDAO.findByEmail(email);
             
-            if (user == null || !user.getPasswordHash().equals(password)) { // À remplacer par une vérification sécurisée du mot de passe
+            if (user == null || !org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPasswordHash())) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("{\"message\":\"Email ou mot de passe incorrect\"}");
                 return;
