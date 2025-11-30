@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS messages (
     sender_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     receiver_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
+    attachment_url TEXT,
+    attachment_type VARCHAR(50),
     sent_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     is_read BOOLEAN DEFAULT false,
     read_at TIMESTAMP WITH TIME ZONE

@@ -110,6 +110,9 @@ body {
     color: var(--text-secondary);
     font-weight: 500;
     transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-link.btn-register {
@@ -939,6 +942,45 @@ body {
     margin: 0 0 5px 0;
     color: var(--text-primary);
     font-size: 1.2rem;
+}
+
+.chat-input-area {
+    padding: 1rem;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.message-form {
+    display: flex;
+    gap: 10px;
+}
+
+.file-btn {
+    background: #f0f2f5;
+    color: #666;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-btn:hover {
+    background: #e4e6eb;
+    color: var(--primary-color);
+}
+
+#messageInput {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
 .profile-info .location {
@@ -2069,4 +2111,268 @@ input[type="text"] {
     font-weight: 700;
     text-align: right;
     font-size: 1.05rem;
+}
+
+/* =============================================
+   STYLES POUR LA PAGE MESSAGES (MATCHS & REQUÊTES)
+   ============================================= */
+
+.messages-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.messages-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.messages-container h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Section Demandes */
+.requests-section {
+    margin-bottom: 40px;
+}
+
+.requests-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.request-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.request-card:hover {
+    transform: translateY(-3px);
+}
+
+.request-info {
+    flex: 1;
+}
+
+.request-info h4 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.request-info p {
+    margin: 2px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.request-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-accept,
+.btn-reject {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-accept {
+    background: #4cd137;
+    color: white;
+}
+
+.btn-accept:hover {
+    background: #44bd32;
+    transform: scale(1.1);
+}
+
+.btn-reject {
+    background: #ff4757;
+    color: white;
+}
+
+.btn-reject:hover {
+    background: #ff2e63;
+    transform: scale(1.1);
+}
+
+/* Section Matchs */
+.matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.match-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 5px solid transparent;
+}
+
+.match-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-left-color: var(--primary-color);
+}
+
+.profile-image-small {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.match-info {
+    flex: 1;
+}
+
+.match-info h4 {
+    margin: 0 0 5px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.match-info .last-message {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.match-time {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+/* Badge de notification */
+.badge-notification {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #ff4757;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: none;
+    /* Caché par défaut */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Onglets */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+}
+
+.status-pending {
+    color: #ffa502;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Style du bouton envoyer */
+.send-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    background: #ff2e63;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.send-btn:active {
+    transform: scale(0.95);
+}
+
+/* Alignement en-tête chat */
+.chat-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-user-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
 }

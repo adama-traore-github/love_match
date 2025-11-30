@@ -1,9 +1,15 @@
 com/lovematch/controllers/ProfileServlet.class
 com/lovematch/dao/UserDAO.class
+com/lovematch/controllers/MessageServlet.class
 com/lovematch/controllers/ProfilePhotoServlet.class
 com/lovematch/controllers/AuthController.class
+com/lovematch/models/Message.class
 com/lovematch/models/User.class
+com/lovematch/utils/GenerateHash.class
 com/lovematch/models/Profile.class
 com/lovematch/config/DatabaseInitializer.class
 com/lovematch/dao/ProfileDAO.class
+com/lovematch/dao/MessageDAO.class
 com/lovematch/controllers/RegisterServlet.class
+com/lovematch/controllers/MatchServlet.class
+com/lovematch/dao/MatchDAO.class

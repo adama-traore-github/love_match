@@ -373,33 +373,51 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        if (action !== 'like') return; // On ne gère que le like pour l'instant
+
         try {
-            console.log(`Traitement de l'action ${action} pour l'utilisateur ${userId}`);
-            const response = await fetch(`/api/profiles/${userId}/${action}`, {
+            console.log(`Envoi d'une demande de match à l'utilisateur ${userId}`);
+            const response = await fetch('/api/matches/request', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                    // Le cookie de session gère l'auth, mais on garde le header si besoin pour d'autres filtres
+                    // 'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                },
+                body: JSON.stringify({ targetId: userId })
             });
 
             if (!response.ok) {
-                throw new Error('Erreur lors du traitement de la demande');
+                if (response.status === 401) {
+                    showLoginRequired();
+                    return;
+                }
+                throw new Error('Erreur lors de la demande');
             }
 
             const data = await response.json();
 
-            if (data.match) {
-                showMatchModal(data.matchedUser);
+            if (data.isMatch) {
+                // Récupérer les infos de l'utilisateur pour la modale
+                // On triche un peu en cherchant dans les profils chargés
+                const matchedUser = allProfiles.find(p => String(p.id) === String(userId)) || { name: 'Utilisateur', id: userId };
+                showMatchModal(matchedUser);
+            } else {
+                alert("Demande envoyée !");
             }
 
-            // Mettre à jour l'interface utilisateur
+            // Mettre à jour l'interface utilisateur (Retirer la carte)
+            /* 
+            // MODIFICATION : On ne retire plus la carte pour permettre de redemander un match
             const userCard = document.querySelector(`[data-user-id="${userId}"]`);
             if (userCard) {
                 userCard.remove();
+                // Retirer aussi de la liste interne
+                currentDisplayedProfiles = currentDisplayedProfiles.filter(p => String(p.id) !== String(userId));
+                allProfiles = allProfiles.filter(p => String(p.id) !== String(userId));
             }
-
-            console.log(`Action ${action} réussie pour l'utilisateur ${userId}`);
+            */
+            console.log("Demande envoyée, la carte reste affichée pour permettre d'autres tentatives.");
 
         } catch (error) {
             console.error('Erreur:', error);
@@ -501,26 +519,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="profile-header">
                     <div class="profile-image" style="background-image: url('${profile.profilePictureUrl || 'https://via.placeholder.com/300x400?text=Photo+de+profil'}')"></div>
                     <div class="profile-header-info">
-                        <h2>${profile.fullName || (profile.firstName ? profile.firstName + ' ' + (profile.lastName || '') : '') || profile.name || 'Utilisateur'}, ${profile.age || ''}</h2>
-                        <p class="location">${profile.location || ''}</p>
+                        <h2>${profile.fullName || (profile.firstName ? profile.firstName + ' ' + (profile.lastName || '') : '') || profile.name || 'Utilisateur'}</h2>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> ${profile.city || profile.location || 'Ville inconnue'}</p>
                     </div>
                 </div>
                 <div class="profile-details">
-                    <h3>À propos</h3>
-                    <p>${profile.bio || 'Aucune biographie disponible.'}</p>
-                    
-                    ${profile.interests && profile.interests.length > 0 ? `
-                        <h3>Centres d'intérêt</h3>
-                        <div class="interests">
-                            ${profile.interests.map(interest => `<span class="interest-tag">${interest}</span>`).join('')}
+                    <div class="profile-info-grid" style="display: grid; grid-template-columns: 120px 1fr; gap: 15px; margin: 20px 0; align-items: start;">
+                        
+                        <!-- Ligne 1 : À propos -->
+                        <div class="info-label" style="text-align: left; font-weight: 600; color: #666;">À propos</div>
+                        <div class="info-value" style="text-align: left; color: #333; font-style: italic;">"${profile.bio || 'Aucune biographie disponible.'}"</div>
+
+                        <!-- Ligne 2 : Genre -->
+                        <div class="info-label" style="text-align: left; font-weight: 600; color: #666;">Genre</div>
+                        <div class="info-value" style="text-align: left; font-weight: bold; color: #333;">${profile.gender === 'male' ? 'Homme' : (profile.gender === 'female' ? 'Femme' : 'Non spécifié')}</div>
+                        
+                        <!-- Ligne 3 : Âge -->
+                        <div class="info-label" style="text-align: left; font-weight: 600; color: #666;">Âge</div>
+                        <div class="info-value" style="text-align: left; font-weight: bold; color: #333;">${profile.age || '?'} ans</div>
+
+                        <!-- Ligne 4 : Centres d'intérêt -->
+                        <div class="info-label" style="text-align: left; font-weight: 600; color: #666;">Centres d'intérêt</div>
+                        <div class="info-value" style="text-align: left;">
+                            ${profile.interests && profile.interests.length > 0 ?
+                `<div class="interests-container" style="justify-content: flex-start;">
+                                    ${profile.interests.map(interest => `<span class="interest-tag">${interest}</span>`).join('')}
+                                </div>` : 'Aucun intérêt renseigné'}
                         </div>
-                    ` : ''}
+                    </div>
                 </div>
-                <div class="profile-actions">
-                    <button class="btn btn-primary like-btn" data-user-id="${profile.id}">
-                        <i class="fas fa-heart"></i> J'aime
-                    </button>
-                    <button class="btn btn-secondary close-profile">Fermer</button>
+                <div class="profile-actions" style="justify-content: center;">
+                    <button class="btn btn-secondary close-profile" style="min-width: 150px;">Fermer</button>
                 </div>
             </div>
         `;
@@ -536,12 +565,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.remove();
         });
 
-        modal.querySelector('.like-btn').addEventListener('click', (e) => {
-            const userId = e.target.closest('.like-btn').dataset.userId;
-            handleAction(userId, 'like');
-            modal.remove();
-        });
-
         // Fermer la modale en cliquant en dehors
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -549,6 +572,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+
 
     // Fonction pour mélanger un tableau (Fisher-Yates Shuffle)
     function shuffleArray(array) {

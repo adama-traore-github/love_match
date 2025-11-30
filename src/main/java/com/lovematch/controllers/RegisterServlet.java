@@ -48,6 +48,8 @@ public class RegisterServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String city = request.getParameter("city");
             String gender = request.getParameter("gender");
+            String searchPreference = request.getParameter("searchPreference");
+            String bio = request.getParameter("bio");
             String dobStr = request.getParameter("birthDate"); // Format YYYY-MM-DD
             
             // Validation basique
@@ -63,8 +65,9 @@ public class RegisterServlet extends HttpServlet {
             }
 
             // 2. Gestion de la photo
-            String profilePictureUrl = "https://via.placeholder.com/150"; // Par défaut
+            String profilePictureUrl = null;
             Part filePart = request.getPart("profilePhoto");
+            
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = getFileName(filePart);
                 if (fileName != null && !fileName.isEmpty()) {
@@ -80,6 +83,22 @@ public class RegisterServlet extends HttpServlet {
                 }
             }
 
+            // Si aucune photo n'a été uploadée, on met un avatar par défaut selon le genre
+            if (profilePictureUrl == null) {
+                if ("male".equalsIgnoreCase(gender) || "homme".equalsIgnoreCase(gender)) {
+                    // Avatar homme aléatoire (1-50)
+                    int randomId = new Random().nextInt(50) + 1;
+                    profilePictureUrl = "https://avatar.iran.liara.run/public/boy?username=" + firstName + randomId;
+                } else if ("female".equalsIgnoreCase(gender) || "femme".equalsIgnoreCase(gender)) {
+                    // Avatar femme aléatoire (1-50)
+                    int randomId = new Random().nextInt(50) + 1;
+                    profilePictureUrl = "https://avatar.iran.liara.run/public/girl?username=" + firstName + randomId;
+                } else {
+                    // Avatar neutre/autre
+                    profilePictureUrl = "https://avatar.iran.liara.run/public"; 
+                }
+            }
+
             // 3. Création de l'utilisateur
             User user = new User();
             user.setEmail(email);
@@ -91,10 +110,22 @@ public class RegisterServlet extends HttpServlet {
             user.setGender(gender);
             user.setProfilePictureUrl(profilePictureUrl);
             user.setUsername(firstName.toLowerCase() + "_" + lastName.toLowerCase().charAt(0) + new Random().nextInt(1000));
-            user.setSearchPreference("both"); // Par défaut
+            
+            // Nouveaux champs
+            user.setSearchPreference(searchPreference != null ? searchPreference : "both");
+            user.setBio(bio != null ? bio : "");
 
             if (dobStr != null && !dobStr.isEmpty()) {
-                user.setDateOfBirth(LocalDate.parse(dobStr));
+                LocalDate dob = LocalDate.parse(dobStr);
+                LocalDate today = LocalDate.now();
+                if (java.time.Period.between(dob, today).getYears() < 18) {
+                    sendError(response, HttpServletResponse.SC_BAD_REQUEST, "Vous devez avoir au moins 18 ans pour vous inscrire.");
+                    return;
+                }
+                user.setDateOfBirth(dob);
+            } else {
+                 sendError(response, HttpServletResponse.SC_BAD_REQUEST, "Date de naissance requise");
+                 return;
             }
 
             // Sauvegarde en base

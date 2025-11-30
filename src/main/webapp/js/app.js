@@ -43,10 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!token) {
         if (path.includes('profil.html')) {
-            const profileContainer = document.querySelector('.profile-container');
-            if (profileContainer) {
-                profileContainer.innerHTML = '<div class="auth-message" style="text-align: center; margin-top: 50px; font-size: 1.2rem; color: #666;">pas connecter pas de profil veuiller vous connecter</div>';
-            }
+            window.location.href = 'connexion.html';
+            return;
         } else if (path.includes('messages.html')) {
             const messagesContainer = document.querySelector('.messages-container');
             if (messagesContainer) {
@@ -106,6 +104,9 @@ function initOnboarding() {
     if (localStorage.getItem('hasSeenOnboarding') === 'true') {
         return;
     }
+
+    // SINON, on l'affiche explicitement (car il est caché par défaut en CSS/HTML maintenant)
+    onboarding.style.display = 'block';
 
     console.log('Initialisation de l\'onboarding...');
 

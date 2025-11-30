@@ -3,6 +3,7 @@
 -- ==========================================================
 
 -- 1. NETTOYAGE : Vider les tables de données.
+TRUNCATE TABLE matches RESTART IDENTITY CASCADE;
 TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 TRUNCATE TABLE user_interests RESTART IDENTITY;
 
@@ -11,7 +12,7 @@ TRUNCATE TABLE user_interests RESTART IDENTITY;
 DO $$ 
 DECLARE
     -- Le hash BCrypt de 'password123'
-    p_hash TEXT := '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7.od3bJ.e'; 
+    p_hash TEXT := '$2a$10$sLuotUC93aHMIi6hyz7czuaDBhHJaaHLfZ8CEha0ZI57utNHHwRra'; 
 BEGIN
 
 -- 2.1. Insertion des 20 utilisateurs
@@ -70,4 +71,7 @@ INSERT INTO user_interests (user_id, interest_id) VALUES
 (19, (SELECT interest_id FROM interests WHERE name = 'Cuisine')), (19, (SELECT interest_id FROM interests WHERE name = 'Musique')), (19, (SELECT interest_id FROM interests WHERE name = 'Danse')),
 (20, (SELECT interest_id FROM interests WHERE name = 'Voyage')), (20, (SELECT interest_id FROM interests WHERE name = 'Art')), (20, (SELECT interest_id FROM interests WHERE name = 'Coup d''un soir'));
  
+    -- 4. Réinitialiser la séquence pour éviter les conflits d'ID
+    PERFORM setval('users_user_id_seq', (SELECT MAX(user_id) FROM users));
+
 END $$;

@@ -438,12 +438,33 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label>Je cherche</label>
+                        <div class="input-wrapper">
+                            <select id="searchPreference" class="form-control" required>
+                                <option value="both" selected>Tout le monde</option>
+                                <option value="male">Homme</option>
+                                <option value="female">Femme</option>
+                            </select>
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
                     <div class="form-group full-width">
                         <label>Mot de passe</label>
                         <div class="input-wrapper">
                             <input type="password" id="password" class="form-control" placeholder="8 caractères minimum"
                                 required>
                             <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Bio (Quelques mots sur vous)</label>
+                        <div class="input-wrapper">
+                            <textarea id="bio" class="form-control" rows="3"
+                                placeholder="J'aime les longues promenades sur la plage..."></textarea>
+                            <i class="fas fa-pen" style="top: 20px;"></i>
                         </div>
                     </div>
                 </div>
@@ -559,6 +580,25 @@
             e.preventDefault();
 
             // Validation côté client
+            const birthDateInput = document.getElementById('birthDate').value;
+            if (!birthDateInput) {
+                alert('Veuillez entrer votre date de naissance.');
+                return;
+            }
+
+            const birthDate = new Date(birthDateInput);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                alert("Désolé, vous devez avoir au moins 18 ans pour vous inscrire sur LoveMatch. Revenez nous voir quand vous aurez 18 ans  !");
+                return;
+            }
+
             const phoneInput = document.getElementById('phone');
             const phoneRegex = /^[0-9]{8}$/; // 8 chiffres
             if (!phoneRegex.test(phoneInput.value)) {
@@ -587,6 +627,8 @@
                 formData.append('city', document.getElementById('city').value);
                 formData.append('birthDate', document.getElementById('birthDate').value);
                 formData.append('gender', document.getElementById('gender').value);
+                formData.append('searchPreference', document.getElementById('searchPreference').value);
+                formData.append('bio', document.getElementById('bio').value);
                 formData.append('password', document.getElementById('password').value);
 
                 if (photoInput.files[0]) {
