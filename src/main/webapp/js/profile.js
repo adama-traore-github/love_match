@@ -129,7 +129,7 @@ async function openEditModal() {
 async function handleProfileUpdate(e) {
     e.preventDefault();
 
-    const userId = localStorage.getItem('userId');
+    const userId = currentUserData ? currentUserData.userId : localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
     // Récupérer les intérêts sélectionnés
@@ -172,16 +172,24 @@ async function handleProfileUpdate(e) {
 }
 
 async function loadUserProfile() {
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
-
-    if (!userId || !token) {
-        console.log('[Profile] Utilisateur non connecté');
-        // Le message "non connecté" est déjà géré par app.js
-        return;
-    }
-
     try {
+        // 1. Vérifier qui est connecté selon le serveur
+        const authResponse = await fetch('/api/auth/check');
+        if (!authResponse.ok) throw new Error('Non authentifié');
+
+        const authData = await authResponse.json();
+        if (!authData.authenticated || !authData.user) {
+            console.log('[Profile] Utilisateur non connecté');
+            window.location.href = 'connexion.html';
+            return;
+        }
+
+        const userId = authData.user.id;
+        const token = localStorage.getItem('token'); // On garde le token pour les autres requêtes
+
+        // Mettre à jour le localStorage pour être synchro
+        localStorage.setItem('userId', userId);
+
         console.log(`[Profile] Chargement du profil ${userId}...`);
         const response = await fetch(`/api/profiles/${userId}`, {
             headers: {

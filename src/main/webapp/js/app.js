@@ -73,9 +73,19 @@ function updateAuthUI() {
             logoutBtn.style.display = 'inline-flex'; // Utiliser inline-flex pour garder l'alignement avec l'icône
             logoutBtn.onclick = function (e) {
                 e.preventDefault();
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
-                window.location.href = 'index.html';
+
+                // Appeler le backend pour invalider la session
+                fetch('/api/auth/logout', { method: 'POST' })
+                    .then(() => {
+                        console.log("Déconnexion serveur réussie");
+                    })
+                    .catch(err => console.error("Erreur déconnexion serveur", err))
+                    .finally(() => {
+                        // Nettoyage local dans tous les cas
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('userId');
+                        window.location.href = 'index.html';
+                    });
             };
         }
     } else {

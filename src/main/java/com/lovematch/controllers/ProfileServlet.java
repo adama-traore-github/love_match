@@ -173,9 +173,19 @@ public class ProfileServlet extends HttpServlet {
             if (pathParts.length >= 2) {
                 try {
                     Long targetUserId = Long.parseLong(pathParts[1]);
+                    
+                    // DEBUG LOGS
+                    System.out.println("=== DEBUG PROFILE UPDATE ===");
+                    System.out.println("Session User ID: " + currentUser.getUserId() + " (Type: " + (currentUser.getUserId() != null ? currentUser.getUserId().getClass().getName() : "null") + ")");
+                    System.out.println("Target User ID: " + targetUserId + " (Type: " + targetUserId.getClass().getName() + ")");
+                    System.out.println("Are they equal? " + currentUser.getUserId().equals(targetUserId));
+                    System.out.println("============================");
+
+                    // Comparaison sécurisée des Longs
                     if (!currentUser.getUserId().equals(targetUserId)) {
-                        System.out.println("[ProfileServlet] Forbidden: User " + currentUser.getUserId() + " tried to edit " + targetUserId);
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Vous ne pouvez modifier que votre propre profil");
+                        String debugMsg = "Forbidden: SessionID=" + currentUser.getUserId() + " (" + currentUser.getUserId().getClass().getSimpleName() + ") vs TargetID=" + targetUserId + " (" + targetUserId.getClass().getSimpleName() + ")";
+                        System.out.println("[ProfileServlet] " + debugMsg);
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN, debugMsg);
                         return;
                     }
                 } catch (NumberFormatException e) {
